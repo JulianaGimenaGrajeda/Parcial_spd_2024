@@ -7,6 +7,9 @@
 
 ## Proyecto: Alarma de Incendios
 
+### Descripción..
+El siguiente programa busca simular el circuito de una alarma de incendios. El mismo categoriza la temperatura ambiente actual hasta dar con la temperatura promedio en la que se indica que podría haber un incendio, activando una señal con las luces led incluidas.
+
 ## Función Principal
 
 ## Link al Proyecto
