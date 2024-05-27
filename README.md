@@ -1,5 +1,5 @@
 # Práctico Primer Parcial de SPD
-
+![Tinkercad](./imagenes/at.png)
 
 
 ## Integrantes
