@@ -70,5 +70,5 @@ void loop()
 ![pdf1](./imagenes/df1.png)
 
 ## Link al Proyecto
-- [Click aquí para ser dirigido al proyecto](https://www.tinkercad.com/things/gUTzVkEOkP6-juliana-grajeda-practico-primer-parcial/editel?sharecode=pjgnvAwwcNJcBiWY2Rh3e7YFxJmLNvZ8M6qPUQ6q05s)
+- [Click aquí para ser dirigido al proyecto](https://www.tinkercad.com/things/gUTzVkEOkP6-juliana-grajeda-practico-primer-parcial)
 
