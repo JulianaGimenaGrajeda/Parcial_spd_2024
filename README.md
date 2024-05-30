@@ -7,7 +7,7 @@
 
 ## Proyecto: Alarma de Incendios
 
-![Proyecto](PRIMER_PARCIAL.png)
+![Proyecto](./imagenes/PRIMER_PARCIAL.png)
 
 ### Descripción..
 El siguiente programa busca simular el circuito de una alarma de incendios. El mismo categoriza la temperatura ambiente actual hasta dar con la temperatura promedio en la que se indica que podría haber un incendio, activando una señal con las luces led incluidas.
@@ -31,6 +31,10 @@ void loop()
   }
 }
 ~~~
+
+##Diagrama de Conexiones del Proyecto
+
+![pdf](./imagenes/)
 
 ## Link al Proyecto
 - [Click aquí para ser dirigido al proyecto](https://www.tinkercad.com/things/gUTzVkEOkP6-practico-primer-parcial/editel?sharecode=pjgnvAwwcNJcBiWY2Rh3e7YFxJmLNvZ8M6qPUQ6q05s)
