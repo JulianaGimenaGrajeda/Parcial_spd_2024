@@ -1,0 +1,282 @@
+/*
+-----------------------------Objetivo/Consigna PRIMER PARCIAL------------------------------------
+
+El objetivo de este proyecto es diseñar un sistema de incendio utilizando Arduino que 
+pueda detectar cambios de temperatura y activar un sistema de respuesta en caso de 
+detectar un incendio. Además, se mostrará el nivel de temperatura en un display de 7 segmentos.
+
+-------------------------------------------------------------------------------------------------
+*/
+
+#include <Servo.h>
+#define A 9
+#define B 8
+#define C 5
+#define D 6
+#define E 7
+#define F 10
+#define G 11
+#define LED_AZUL 3
+#define LED_ROJO 4
+#define btn_alarma_on 2
+#define btn_alarma_off A1
+
+
+int temperatura;
+int lecturaDelSensor;
+int numero = 0;
+bool bandera_alarma = false;
+bool ultimo_estado_on = HIGH;
+bool ultimo_estado_off = HIGH;
+int pos = 0;
+
+Servo llave_agua;
+
+void setup()
+{
+  pinMode(LED_AZUL,OUTPUT);
+  pinMode(LED_ROJO,OUTPUT);
+  pinMode(A,OUTPUT);
+  pinMode(B,OUTPUT);
+  pinMode(C,OUTPUT);
+  pinMode(D,OUTPUT);
+  pinMode(E,OUTPUT);
+  pinMode(F,OUTPUT);
+  pinMode(G,OUTPUT);
+  pinMode(btn_alarma_on,INPUT_PULLUP);
+  pinMode(btn_alarma_off,INPUT_PULLUP);
+  llave_agua.attach(13);
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  
+  lecturaDelSensor = analogRead(A0);
+  temperatura = map(lecturaDelSensor,20,358,-40,125);
+  int nivel = categorizar_temperatura(temperatura);
+  manejar_botones(nivel); 
+  
+  if (bandera_alarma)
+  {
+    encender_alarma(nivel);
+  }
+  else
+  {
+    apagar_leds();
+  }
+  
+}
+
+void manejar_botones(int nivel)
+{
+  bool estado_actual_on = digitalRead(btn_alarma_on);
+  bool estado_actual_off = digitalRead(btn_alarma_off);
+  
+  if(estado_actual_on == LOW && ultimo_estado_on == HIGH)
+  {
+    bandera_alarma = true;
+    Serial.print("\nLa alarma encendida");
+  }
+  
+  if(estado_actual_off == LOW && ultimo_estado_off == HIGH)
+  {
+    bandera_alarma = false;
+    Serial.print("\nLa alarma apagada");
+  }
+  
+  ultimo_estado_off = estado_actual_off;
+  ultimo_estado_on = estado_actual_on;
+  
+}
+
+void encender_alarma(int numero)
+{
+  if (numero >= 6)
+  {
+    digitalWrite(LED_ROJO,HIGH);
+    digitalWrite(LED_AZUL,LOW);
+    delay(200);
+    digitalWrite(LED_ROJO,LOW);
+    digitalWrite(LED_AZUL,HIGH);
+    delay(200);
+    llave_agua.write(90);
+  }
+  else
+  {
+    llave_agua.write(0);
+    apagar_leds();
+  }
+}
+
+void apagar_leds()
+{
+  digitalWrite(LED_AZUL, LOW);
+  digitalWrite(LED_ROJO, LOW);
+  llave_agua.write(0);
+}
+
+int categorizar_temperatura(int temp)
+{
+  if (temp >= 30 && temp <= 34)
+  {
+    numero = 1;
+  }
+  else if (temp >= 35 && temp <= 39)
+  {
+    numero = 2;
+  }
+  else if (temp >= 40 && temp <= 44)
+  {
+    numero = 3;
+  }
+  else if (temp >= 45 && temp <= 49)
+  {
+    numero = 4;
+  }
+  else if (temp >= 50 && temp <= 54)
+  {
+    numero = 5;
+  }
+  else if (temp >= 55 && temp <= 59)
+  {
+    numero = 6;
+  }
+  else if (temp >= 60 && temp <= 64)
+  {
+    numero = 7;
+  }
+  else if (temp >= 65 && temp <= 69)
+  {
+    numero = 8;
+  }
+  else if (temp >= 70)
+  {
+    numero = 9;
+  }
+  else
+  {
+    numero = 0;
+  }
+  
+  mostrar_numero(numero);
+  
+  return numero;
+}
+
+void avisar_leds()
+{
+  delay(50);
+  digitalWrite(A,LOW);
+  digitalWrite(B,LOW);
+  digitalWrite(C,LOW);
+  digitalWrite(D,LOW);
+  digitalWrite(E,LOW);
+  digitalWrite(F,LOW);
+  digitalWrite(G,LOW);
+  delay(50);
+}
+
+void mostrar_numero(int numero)
+{
+  switch (numero)
+  {
+    case 0:
+    	digitalWrite(A,HIGH);
+    	digitalWrite(B,HIGH);
+        digitalWrite(C,HIGH);
+  		digitalWrite(D,HIGH);
+  		digitalWrite(E,HIGH);
+  		digitalWrite(F,HIGH);
+  		digitalWrite(G,LOW);
+        break;
+    case 1:
+  		digitalWrite(A,LOW);
+    	digitalWrite(B,HIGH);
+        digitalWrite(C,HIGH);
+  		digitalWrite(D,LOW);
+  		digitalWrite(E,LOW);
+  		digitalWrite(F,LOW);
+  		digitalWrite(G,LOW);
+    	break;
+    case 2:
+  		digitalWrite(A,HIGH);
+    	digitalWrite(B,HIGH);
+        digitalWrite(C,LOW);
+  		digitalWrite(D,HIGH);
+  		digitalWrite(E,HIGH);
+  		digitalWrite(F,LOW);
+  		digitalWrite(G,HIGH); 
+    	break;
+    case 3:
+  		digitalWrite(A,HIGH);
+    	digitalWrite(B,HIGH);
+        digitalWrite(C,HIGH);
+  		digitalWrite(D,HIGH);
+  		digitalWrite(E,LOW);
+  		digitalWrite(F,LOW);
+  		digitalWrite(G,HIGH);
+    	break;
+    case 4:
+  		digitalWrite(A,LOW);
+    	digitalWrite(B,HIGH);
+        digitalWrite(C,HIGH);
+  		digitalWrite(D,LOW);
+  		digitalWrite(E,LOW);
+  		digitalWrite(F,HIGH);
+  		digitalWrite(G,HIGH);
+        break;
+    case 5:
+  		digitalWrite(A,HIGH);
+    	digitalWrite(B,LOW);
+        digitalWrite(C,HIGH);
+  		digitalWrite(D,HIGH);
+  		digitalWrite(E,LOW);
+  		digitalWrite(F,HIGH);
+  		digitalWrite(G,HIGH);
+        break;
+    case 6:
+  		digitalWrite(A,HIGH);
+    	digitalWrite(B,LOW);
+        digitalWrite(C,HIGH);
+  		digitalWrite(D,HIGH);
+  		digitalWrite(E,HIGH);
+  		digitalWrite(F,HIGH);
+  		digitalWrite(G,HIGH);
+        break;
+    case 7:
+  		digitalWrite(A,HIGH);
+    	digitalWrite(B,HIGH);
+        digitalWrite(C,HIGH);
+  		digitalWrite(D,LOW);
+  		digitalWrite(E,LOW);
+  		digitalWrite(F,LOW);
+  		digitalWrite(G,LOW);
+        break;
+    case 8:
+  		digitalWrite(A,HIGH);
+    	digitalWrite(B,HIGH);
+        digitalWrite(C,HIGH);
+  		digitalWrite(D,HIGH);
+  		digitalWrite(E,HIGH);
+  		digitalWrite(F,HIGH);
+  		digitalWrite(G,HIGH);
+        break;
+    case 9:
+  		digitalWrite(A,HIGH);
+    	digitalWrite(B,HIGH);
+        digitalWrite(C,HIGH);
+  		digitalWrite(D,LOW);
+  		digitalWrite(E,LOW);
+  		digitalWrite(F,HIGH);
+  		digitalWrite(G,HIGH);
+        break;
+
+  }
+  
+  if (numero >= 6)
+  {
+    avisar_leds();
+  }
+    	
+}
