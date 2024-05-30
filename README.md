@@ -13,6 +13,23 @@
 Este proyecto cumple con el objetivo y/o necesidad de realizar un código que proporcione la funcionalidad de una alarma de incendios activable por un sensor de temperatura ambiente y la temperatura promedio en la cual se considera que podría haber un incendio. El mismo incluye un display led de 7 segmentos que muestra la temeperatura categorizada por niveles del 1 al 9, siendo el 6 el promedio de un incendio.
 Además de contar de una "llave de agua" la cual se abre si detecta un incendio, cuenta también con dos leds que se encienden en un patrón de tiempo y colores simulando una sirena o alarma.
 
+## Componentes Utilizados
+
+1. **Sensor de Temperatura (A0)**
+2. **Botones de Control (2 y A1)**
+3. **LEDs (3 y 4)**
+4. **Display de 7 Segmentos (9, 8, 5, 6, 7, 10, 11)**
+5. **Servomotor (Pin 13)**
+
+#### Implementación de Cada Componente
+
+1. El sensor de temperatura lee la temperatura ambiente y proporciona una señal analógica al pin A0 del Arduino.
+2. "Btn_alarma_on": Activa el funcionamiento de la alarma cuando es presionado.
+   "Btn_alarma_off": Desactiva la alarma.
+3. Los led´s indican visualmente el estado de la alarma.
+4. EL Display de 7 segmentos es utilizado para mostarr el nivel de temperatura categorizado.
+5. Servomotor: Simula la apertura de una válvula de agua cuando se detecta una alarma de incendio.
+
 ## Función Principal
 
 ### Descripción detallada..
